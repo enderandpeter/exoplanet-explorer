@@ -35,6 +35,7 @@ Instructions:
 
     Your code goes here!
      */
+     return fetch(url)
   }
 
   /**
@@ -48,6 +49,13 @@ Instructions:
 
     Your code goes here!
      */
+     return get(url)
+      .then((response) => {
+        if(response.ok) {
+          return response.json()
+        }
+        throw new Error(`Could not find ${url}`);
+      })
   }
 
   window.addEventListener('WebComponentsReady', function() {
@@ -58,6 +66,12 @@ Instructions:
 
     Your code goes here too!
      */
-    // getJSON('../data/earth-like-results.json')
+    getJSON('../data/earth-like-results.json')
+      .then((data) => addSearchHeader(data.query))
+      .catch((error) => {
+        console.error(error);
+        addSearchHeader('unknown');
+      })
+
   });
 })(document);
